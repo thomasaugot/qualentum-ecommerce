@@ -13,3 +13,7 @@
 .user-message {
   text-align: center;
 }
+
+.user-message.dark-mode {
+  color: #fff;
+}

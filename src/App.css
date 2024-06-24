@@ -5,13 +5,6 @@ body {
   background-color: #f5f5f5;
 }
 
-header {
-  background-color: #282c34;
-  color: white;
-  padding: 20px;
-  text-align: center;
-}
-
 h1,
 h2,
 p {
@@ -22,15 +15,5 @@ p {
 
 body.dark-mode {
   background-color: #333;
-  color: #fff;
-}
-
-.navbar {
-  background-color: #fff;
-  color: #000;
-}
-
-body.dark-mode .navbar {
-  background-color: #222;
   color: #fff;
 }

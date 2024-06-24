@@ -1,7 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { FaHome, FaShoppingCart, FaSun, FaMoon, FaUser } from "react-icons/fa";
 import { CartContext } from "../../context/CartContext";
+import { useTheme } from "../../context/ThemeContext";
 import "./Header.css";
 
 const Header = ({ setSearchTerm }) => {
@@ -10,13 +11,7 @@ const Header = ({ setSearchTerm }) => {
   };
 
   const { cart } = useContext(CartContext);
-
-  const [darkMode, setDarkMode] = useState(false);
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.body.classList.toggle("dark-mode", !darkMode);
-  };
+  const { darkMode, toggleDarkMode } = useTheme();
 
   return (
     <header className="header">
@@ -34,9 +29,8 @@ const Header = ({ setSearchTerm }) => {
           <Link to="/" className="nav-link">
             <FaHome size={26} />
           </Link>
-          <Link to="/cart" className="nav-link cart-link">
-            <FaShoppingCart size={24} />
-            <span className="cart-quantity">{cart.length}</span>
+          <Link to="/cart" className="nav-link">
+            <FaShoppingCart size={24} />({cart.length})
           </Link>
           <button onClick={toggleDarkMode} className="nav-button">
             {darkMode ? <FaSun size={24} /> : <FaMoon size={24} />}

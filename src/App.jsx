@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Product from "./components/ProductDetails/ProductDetails";
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
+import { ThemeProvider } from "./context/ThemeContext";
 import Cart from "./components/Cart/Cart";
 import Login from "./components/Login/Login";
 
@@ -26,23 +27,25 @@ const App = () => {
 
   return (
     <Router>
-      <AuthProvider>
-        <CartProvider>
-          <Header setSearchTerm={setSearchTerm} />
-          <Routes>
-            <Route
-              path="/"
-              element={<ProductList products={filteredProducts} />}
-            />
-            <Route
-              path="/product/:id"
-              element={<Product products={products} />}
-            />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/login" element={<Login />} />
-          </Routes>
-        </CartProvider>
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <CartProvider>
+            <Header setSearchTerm={setSearchTerm} />
+            <Routes>
+              <Route
+                path="/"
+                element={<ProductList products={filteredProducts} />}
+              />
+              <Route
+                path="/product/:id"
+                element={<Product products={products} />}
+              />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/login" element={<Login />} />
+            </Routes>
+          </CartProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </Router>
   );
 };

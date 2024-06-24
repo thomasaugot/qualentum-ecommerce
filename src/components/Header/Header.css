@@ -2,14 +2,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #282c34;
-  color: white;
+  background-color: #fff;
+  color: #000;
   padding: 20px;
   box-shadow: 0 4px 2px -2px gray;
   width: 100%;
   position: fixed;
   top: 0;
   z-index: 1000;
+}
+
+body.dark-mode .header {
+  background-color: #222;
+  color: #fff;
 }
 
 .header-content {
@@ -28,16 +33,25 @@
 .header-title {
   margin: 0;
   font-size: 1.5em;
-  color: #fff;
+  color: #000;
   margin-right: 5vw;
+}
+
+body.dark-mode .header-title {
+  color: #fff;
 }
 
 .search-input {
   padding: 10px;
   width: 300px;
   border-radius: 5px;
-  border: none;
+  border: solid 1px #222;
   font-size: 16px;
+}
+
+body.dark-mode .search-input {
+  background-color: #444;
+  color: #fff;
 }
 
 .nav-links {
@@ -49,10 +63,13 @@
 .nav-link {
   display: flex;
   align-items: flex-start;
-  color: white;
+  color: #000;
   text-decoration: none;
-  font-size: 16px;
   transition: color 0.3s ease;
+}
+
+body.dark-mode .nav-link {
+  color: #fff;
 }
 
 .nav-link:hover {
@@ -76,10 +93,14 @@
 
 .nav-button {
   background-color: transparent;
-  color: white;
+  color: #000;
   border: none;
   cursor: pointer;
   padding: 0;
+}
+
+body.dark-mode .nav-button {
+  color: #fff;
 }
 
 .nav-button:hover {
