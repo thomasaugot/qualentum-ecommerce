@@ -19,3 +19,18 @@ p {
   font-size: 2em;
   margin: 20px 0;
 }
+
+body.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+.navbar {
+  background-color: #fff;
+  color: #000;
+}
+
+body.dark-mode .navbar {
+  background-color: #222;
+  color: #fff;
+}

@@ -1,18 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./ProductList.css";
-import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import ProductCard from "../ProductCard/ProductCard";
 
 const ProductList = ({ products }) => {
+  const { user } = useContext(AuthContext);
+
   return (
-    <div className="product-list">
-      {products.map((product) => (
-        <div key={product.id} className="product-card">
-          <img src={product.image} alt={product.title} />
-          <h2>{product.title}</h2>
-          <p>${product.price}</p>
-          <Link to={`/product/${product.id}`}>View Details</Link>
-        </div>
-      ))}
+    <div className="product-list-container">
+      <div className="user-message">
+        {user ? (
+          <p>¡{user.username}, aprovéchate de tu 20% de descuento!</p>
+        ) : (
+          <p>Crea una cuenta para disfrutar de nuestros descuentos.</p>
+        )}
+      </div>
+      <div className="product-list">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
     </div>
   );
 };

@@ -1,27 +1,30 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext } from "react";
 import "./ProductCard.css";
+import { Link } from "react-router-dom";
+import { CartContext } from "../../context/CartContext";
 
-const Product = ({ products }) => {
-  const { id } = useParams();
-  const product = products.find((p) => p.id === parseInt(id));
+const ProductCard = ({ product }) => {
+  const { addToCart } = useContext(CartContext);
 
-  if (!product) {
-    return <div>Product not found</div>;
-  }
+  const handleAddToCart = (event) => {
+    event.stopPropagation();
+    addToCart(product);
+  };
 
   return (
-    <div className="product">
-      <img src={product.image} alt={product.title} />
-      <h1>{product.title}</h1>
-      <p>{product.description}</p>
-      <p>${product.price}</p>
-      <p>Category: {product.category}</p>
-      <p>
-        Rating: {product.rating.rate} ({product.rating.count} reviews)
-      </p>
+    <div className="product-card">
+      <Link to={`/product/${product.id}`} className="product-details">
+        <img src={product.image} alt={product.title} />
+        <h2>{product.title}</h2>
+        <p>${product.price}</p>
+      </Link>
+      <div className="product-card-buttons">
+        <button className="btn-add-to-cart" onClick={handleAddToCart}>
+          Add to Cart
+        </button>
+      </div>
     </div>
   );
 };
 
-export default Product;
+export default ProductCard;
