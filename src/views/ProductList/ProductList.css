@@ -1,19 +1,11 @@
 .product-list-container {
   display: flex;
   flex-direction: column;
-  padding: 100px;
+  padding: 5rem;
 }
 
 .product-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-}
-
-.user-message {
-  text-align: center;
-}
-
-.user-message.dark-mode {
-  color: #fff;
 }

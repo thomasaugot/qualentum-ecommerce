@@ -5,10 +5,31 @@ import "./Cart.css";
 const Cart = () => {
   const { cart, clearCart } = useContext(CartContext);
 
+  console.log("my cart contains: ", cart);
+
   const getTotalPrice = () => {
-    return cart
-      .reduce((total, item) => total + item.price * item.quantity, 0)
-      .toFixed(2);
+    let total = 0;
+
+    cart.forEach((item) => {
+      console.log("quantity --------->: ", item.quantity);
+      if (
+        typeof item.price === "number" &&
+        typeof item.quantity === "number" &&
+        !Number.isNaN(item.price) &&
+        !Number.isNaN(item.quantity)
+      ) {
+        total += item.price * item.quantity;
+      } else {
+        console.warn("Invalid item in cart:", item);
+      }
+    });
+
+    return total.toFixed(2);
+  };
+
+  const handleFinalizeOrder = () => {
+    alert("Order finalized! Thank you for your purchase.");
+    clearCart();
   };
 
   return (
@@ -38,6 +59,7 @@ const Cart = () => {
           </div>
           <div className="cart-total">
             <h3>Total: ${getTotalPrice()}</h3>
+            <button onClick={handleFinalizeOrder}>Finalize Order</button>
             <button onClick={clearCart}>Clear Cart</button>
           </div>
         </div>

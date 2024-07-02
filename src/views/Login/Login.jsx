@@ -1,11 +1,12 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./Login.css";
 
 const Login = () => {
   const { user, login, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
 
@@ -13,6 +14,9 @@ const Login = () => {
     event.preventDefault();
     if (username && email) {
       login(username, email);
+
+      const { from } = location.state || { from: { pathname: "/cart" } };
+      navigate(from.pathname);
     } else {
       alert("Please fill in both fields.");
     }
@@ -20,7 +24,7 @@ const Login = () => {
 
   const handleLogout = () => {
     logout();
-    navigate("/login"); // Redirect to login page after logout
+    navigate("/login");
   };
 
   return (

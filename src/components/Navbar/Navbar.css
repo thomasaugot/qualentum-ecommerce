@@ -1,4 +1,4 @@
-.header {
+.navbar {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,12 +12,7 @@
   z-index: 1000;
 }
 
-body.dark-mode .header {
-  background-color: #222;
-  color: #fff;
-}
-
-.header-content {
+.navbar-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -25,32 +20,16 @@ body.dark-mode .header {
   max-width: 1200px;
 }
 
-.header-left {
+.navbar-left {
   display: flex;
   align-items: center;
 }
 
-.header-title {
+.navbar-title {
   margin: 0;
   font-size: 1.5em;
   color: #000;
   margin-right: 5vw;
-}
-
-body.dark-mode .header-title {
-  color: #fff;
-}
-
-.search-input {
-  padding: 10px;
-  width: 300px;
-  border-radius: 5px;
-  border: solid 1px #222;
-  font-size: 16px;
-}
-
-body.dark-mode .search-input {
-  background-color: #444;
   color: #fff;
 }
 
@@ -63,9 +42,13 @@ body.dark-mode .search-input {
 .nav-link {
   display: flex;
   align-items: flex-start;
-  color: #000;
+  color: #fff;
   text-decoration: none;
   transition: color 0.3s ease;
+}
+
+.active-link {
+  color: red;
 }
 
 body.dark-mode .nav-link {
@@ -93,7 +76,7 @@ body.dark-mode .nav-link {
 
 .nav-button {
   background-color: transparent;
-  color: #000;
+  color: #fff;
   border: none;
   cursor: pointer;
   padding: 0;

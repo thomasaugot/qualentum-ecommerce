@@ -1,19 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { ProductContext } from "../../context/ProductContext";
+import "./SearchBar.css";
 
-const SearchBar = ({ onSearch }) => {
-  const [searchTerm, setSearchTerm] = useState("");
+const SearchBar = () => {
+  const { setSearchTerm } = useContext(ProductContext);
+  const [localSearchTerm, setLocalSearchTerm] = useState("");
 
   const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-    onSearch(e.target.value);
+    const searchValue = e.target.value;
+    setLocalSearchTerm(searchValue);
+    setSearchTerm(searchValue);
   };
 
   return (
     <input
       type="text"
       placeholder="Buscar productos..."
-      value={searchTerm}
+      value={localSearchTerm}
       onChange={handleSearch}
+      className="searchbar"
     />
   );
 };

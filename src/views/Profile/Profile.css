@@ -1,0 +1,18 @@
+.profile-container {
+  padding: 2rem;
+  text-align: center;
+}
+
+.profile-container h2 {
+  margin-bottom: 1rem;
+}
+
+.profile-container p {
+  margin: 0.5rem 0;
+}
+
+.profile-container button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}

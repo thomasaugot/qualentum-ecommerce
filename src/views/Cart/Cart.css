@@ -67,15 +67,16 @@
 
 .cart-container button {
   padding: 12px 24px;
-  background-color: #007bff;
+  background-color: #333;
   color: #fff;
   border: none;
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-top: 10px;
 }
 
 .cart-container button:hover {
-  background-color: #0056b3;
+  background-color: #2b2c2d;
 }
