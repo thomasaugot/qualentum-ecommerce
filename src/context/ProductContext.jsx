@@ -1,21 +1,17 @@
 import React, { createContext, useState, useEffect } from "react";
+import useProducts from "../hooks/useProducts";
 
 export const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
-  const [products, setProducts] = useState([]);
+  const productHook = useProducts();
+  const { products, loading } = productHook;
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
-    fetch("/src/constants/data.json")
-      .then((response) => response.json())
-      .then((data) => {
-        setProducts(data);
-        setFilteredProducts(data);
-      })
-      .catch((error) => console.error("Error loading products:", error));
-  }, []);
+    setFilteredProducts(products);
+  }, [products]);
 
   useEffect(() => {
     if (searchTerm.trim() === "") {
@@ -30,7 +26,7 @@ export const ProductProvider = ({ children }) => {
 
   return (
     <ProductContext.Provider
-      value={{ products, searchTerm, setSearchTerm, filteredProducts }}
+      value={{ ...productHook, searchTerm, setSearchTerm, filteredProducts }}
     >
       {children}
     </ProductContext.Provider>

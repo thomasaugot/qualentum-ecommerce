@@ -1,34 +1,60 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import NotFound from "../views/NotFound/NotFound";
-import Cart from "../views/Cart/Cart";
-import Login from "../views/Login/Login";
-import ProductDetails from "../views/ProductDetails/ProductDetails";
-import Layout from "../views/Layout";
-import Home from "../views/Home/Home";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
-import Profile from "../views/Profile/Profile";
+import Loading from "../components/Loading/Loading";
+
+const Cart = lazy(() => import("../views/Cart/Cart"));
+const Login = lazy(() => import("../views/Login/Login"));
+const ProductDetails = lazy(() =>
+  import("../views/ProductDetails/ProductDetails")
+);
+const Layout = lazy(() => import("../views/Layout"));
+const Home = lazy(() => import("../views/Home/Home"));
+const Profile = lazy(() => import("../views/Profile/Profile"));
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: (
+      <Suspense fallback={<Loading />}>
+        <Layout />
+      </Suspense>
+    ),
     children: [
-      { index: true, element: <Home /> },
+      {
+        index: true,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Home />
+          </Suspense>
+        ),
+      },
       {
         path: "cart",
         element: (
           <ProtectedRoute>
-            <Cart />
+            <Suspense fallback={<Loading />}>
+              <Cart />
+            </Suspense>
           </ProtectedRoute>
         ),
       },
-      { path: "login", element: <Login /> },
+      {
+        path: "login",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Login />
+          </Suspense>
+        ),
+      },
       {
         path: "profile",
         element: (
           <ProtectedRoute>
-            <Profile />
+            <Suspense fallback={<Loading />}>
+              <Profile />
+            </Suspense>
           </ProtectedRoute>
         ),
       },
@@ -36,11 +62,20 @@ export const router = createBrowserRouter([
         path: "products/:id",
         element: (
           <ProtectedRoute>
-            <ProductDetails />
+            <Suspense fallback={<Loading />}>
+              <ProductDetails />
+            </Suspense>
           </ProtectedRoute>
         ),
       },
-      { path: "*", element: <NotFound /> },
+      {
+        path: "*",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <NotFound />
+          </Suspense>
+        ),
+      },
     ],
   },
 ]);

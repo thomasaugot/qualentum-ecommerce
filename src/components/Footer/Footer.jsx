@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import Modal from "../../components/Modal/Modal";
+import AddProduct from "../../components/AddProduct/AddProduct";
 import "./Footer.css";
+import { AuthContext } from "../../context/AuthContext";
 
 const Footer = () => {
+  const { isAdmin } = useContext(AuthContext);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOpenModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
   return (
     <footer className="footer">
       <div className="footer__container">
@@ -32,7 +41,15 @@ const Footer = () => {
       </div>
       <div className="footer__bottom">
         <p>&copy; 2024 Thomas' React E-Commerce. All rights reserved.</p>
+        {isAdmin && (
+          <button onClick={handleOpenModal} className="add-product-button">
+            Add a Product
+          </button>
+        )}
       </div>
+      <Modal show={showModal} handleClose={handleCloseModal}>
+        <AddProduct handleCloseModal={handleCloseModal} />
+      </Modal>
     </footer>
   );
 };

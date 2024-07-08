@@ -57,3 +57,21 @@
   color: #fff;
   font-size: 1rem;
 }
+
+.add-product-button {
+  padding: 10px 15px;
+  background-color: #61dafb;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s;
+  margin-top: 10px;
+  max-width: 150px;
+}
+
+.add-product-button:hover {
+  background-color: #21a1f1;
+}
