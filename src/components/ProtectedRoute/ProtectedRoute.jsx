@@ -7,7 +7,7 @@ const ProtectedRoute = ({ children }) => {
   const user = useSelector(selectUser);
 
   if (!user) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/authentication" />;
   }
 
   return children;
