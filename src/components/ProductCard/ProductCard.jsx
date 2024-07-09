@@ -1,23 +1,23 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "./ProductCard.css";
 import { Link } from "react-router-dom";
-import { CartContext } from "../../context/CartContext";
-import { AuthContext } from "../../context/AuthContext";
 import Modal from "../Modal/Modal";
 import { IoMdCreate, IoMdTrash } from "react-icons/io";
-import useProducts from "../../hooks/useProducts";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteProduct, editProduct, addToCart } from "../../redux/actions";
 import EditProduct from "../EditProduct/EditProduct";
+import { selectIsAdmin, selectUser } from "../../redux/reducers/userReducer";
 
 const ProductCard = ({ product }) => {
-  const { addToCart } = useContext(CartContext);
-  const { user, isAdmin } = useContext(AuthContext);
-  const { deleteProduct, updateProduct, handleInputChange } = useProducts();
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedProduct, setEditedProduct] = useState({ ...product });
+  const user = useSelector(selectUser);
+  const isAdmin = useSelector(selectIsAdmin);
+  const dispatch = useDispatch();
 
   const handleAddToCart = (event) => {
     event.stopPropagation();
-    addToCart(product);
+    dispatch(addToCart(product));
   };
 
   const handleEditClick = (event) => {
@@ -25,20 +25,19 @@ const ProductCard = ({ product }) => {
     setShowEditModal(true);
   };
 
-  const handleDeleteClick = (event) => {
-    event.stopPropagation();
-    deleteProduct(product.id);
+  const handleDeleteClick = () => {
+    dispatch(deleteProduct(product.id));
   };
 
   const handleEditSubmit = (e) => {
     e.preventDefault();
-    updateProduct(editedProduct);
+    dispatch(editProduct(editedProduct));
     setShowEditModal(false);
   };
 
   const handleEditInputChange = (e) => {
-    handleInputChange(e);
-    setEditedProduct({ ...editedProduct, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setEditedProduct({ ...editedProduct, [name]: value });
   };
 
   return (
@@ -51,7 +50,11 @@ const ProductCard = ({ product }) => {
       <div className="product-card-buttons">
         {user && (
           <>
-            <button className="btn-add-to-cart" onClick={handleAddToCart}>
+            <button
+              className="btn-add-to-cart"
+              onClick={handleAddToCart}
+              handleEditSubmit={handleEditSubmit}
+            >
               Add to Cart
             </button>
             {isAdmin && (
@@ -73,6 +76,7 @@ const ProductCard = ({ product }) => {
             product={editedProduct}
             handleInputChange={handleEditInputChange}
             handleSubmit={handleEditSubmit}
+            handleCloseModal={() => setShowEditModal(false)}
           />
         </Modal>
       )}

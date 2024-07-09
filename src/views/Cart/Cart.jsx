@@ -1,27 +1,18 @@
-import React, { useContext } from "react";
-import { CartContext } from "../../context/CartContext";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { clearCart } from "../../redux/actions";
+import { selectCart } from "../../redux/reducers/cartReducer";
 import "./Cart.css";
 
 const Cart = () => {
-  const { cart, clearCart } = useContext(CartContext);
-
-  console.log("my cart contains: ", cart);
+  const cart = useSelector(selectCart);
+  const dispatch = useDispatch();
 
   const getTotalPrice = () => {
     let total = 0;
 
     cart.forEach((item) => {
-      console.log("quantity --------->: ", item.quantity);
-      if (
-        typeof item.price === "number" &&
-        typeof item.quantity === "number" &&
-        !Number.isNaN(item.price) &&
-        !Number.isNaN(item.quantity)
-      ) {
-        total += item.price * item.quantity;
-      } else {
-        console.warn("Invalid item in cart:", item);
-      }
+      total += item.price * item.quantity;
     });
 
     return total.toFixed(2);
@@ -29,7 +20,7 @@ const Cart = () => {
 
   const handleFinalizeOrder = () => {
     alert("Order finalized! Thank you for your purchase.");
-    clearCart();
+    dispatch(clearCart());
   };
 
   return (
@@ -60,7 +51,7 @@ const Cart = () => {
           <div className="cart-total">
             <h3>Total: ${getTotalPrice()}</h3>
             <button onClick={handleFinalizeOrder}>Finalize Order</button>
-            <button onClick={clearCart}>Clear Cart</button>
+            <button onClick={() => dispatch(clearCart())}>Clear Cart</button>
           </div>
         </div>
       )}

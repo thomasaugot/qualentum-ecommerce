@@ -1,20 +1,24 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchProducts } from "../../redux/actions";
 import ProductList from "../ProductList/ProductList";
-import { useTheme } from "../../context/ThemeContext";
+import { selectUser } from "../../redux/reducers/userReducer";
+import {
+  selectAllProducts,
+  selectSearchTerm,
+} from "../../redux/reducers/productReducer";
 
 const Home = () => {
-  const { user } = useContext(AuthContext);
-  const { darkMode, toggleDarkMode } = useTheme();
-  const [products, setProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+  const products = useSelector(selectAllProducts);
+  const searchTerm = useSelector(selectSearchTerm);
 
   useEffect(() => {
-    fetch("/src/constants/data.json")
-      .then((response) => response.json())
-      .then((data) => setProducts(data))
-      .catch((error) => console.error("Error loading products:", error));
+    dispatch(fetchProducts());
   }, []);
+
+  useEffect(() => {}, [searchTerm, products]);
 
   const filteredProducts = products.filter((product) =>
     product.title.toLowerCase().includes(searchTerm.toLowerCase())

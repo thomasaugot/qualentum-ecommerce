@@ -1,15 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link, useParams } from "react-router-dom";
-import { ProductContext } from "../../context/ProductContext";
-import { CartContext } from "../../context/CartContext";
-import { AuthContext } from "../../context/AuthContext";
+import { useSelector, useDispatch } from "react-redux";
+import { addToCart } from "../../redux/actions";
+import { selectAllProducts } from "../../redux/reducers/productReducer";
 import "./ProductDetails.css";
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const { products } = useContext(ProductContext);
-  const { addToCart } = useContext(CartContext);
-  const { user } = useContext(AuthContext);
+  const products = useSelector(selectAllProducts);
+  const dispatch = useDispatch();
 
   const product = products.find((p) => p.id === parseInt(id));
 
@@ -30,7 +29,7 @@ const ProductDetails = () => {
       <p>
         Rating: {product.rating.rate} ({product.rating.count} reviews)
       </p>
-      {user && <button onClick={() => addToCart(product)}>Add to Cart</button>}
+      <button onClick={() => dispatch(addToCart(product))}>Add to Cart</button>
     </div>
   );
 };

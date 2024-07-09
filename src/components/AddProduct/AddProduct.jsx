@@ -1,18 +1,13 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import useProducts from "../../hooks/useProducts";
+import { addProduct } from "../../redux/actions";
 import "./AddProduct.css";
 import { v4 as uuidv4 } from "uuid";
 
 const AddProduct = ({ handleCloseModal }) => {
-  const { addProduct, handleInputChange } = useProducts();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    addProduct(product);
-    handleCloseModal();
-  };
 
   const [product, setProduct] = useState({
     id: uuidv4(),
@@ -27,6 +22,17 @@ const AddProduct = ({ handleCloseModal }) => {
     },
   });
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProduct({ ...product, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(addProduct(product));
+    handleCloseModal();
+  };
+
   return (
     <div className="add-product-container">
       <h2>Add Product</h2>
@@ -36,10 +42,7 @@ const AddProduct = ({ handleCloseModal }) => {
           type="text"
           name="title"
           value={product.title}
-          onChange={(e) => {
-            handleInputChange(e);
-            setProduct({ ...product, title: e.target.value });
-          }}
+          onChange={handleInputChange}
           required
         />
         <br />
@@ -48,10 +51,7 @@ const AddProduct = ({ handleCloseModal }) => {
           type="number"
           name="price"
           value={product.price}
-          onChange={(e) => {
-            handleInputChange(e);
-            setProduct({ ...product, price: e.target.value });
-          }}
+          onChange={handleInputChange}
           step="0.01"
           required
         />
@@ -60,10 +60,7 @@ const AddProduct = ({ handleCloseModal }) => {
         <textarea
           name="description"
           value={product.description}
-          onChange={(e) => {
-            handleInputChange(e);
-            setProduct({ ...product, description: e.target.value });
-          }}
+          onChange={handleInputChange}
           required
         />
         <br />
@@ -72,10 +69,7 @@ const AddProduct = ({ handleCloseModal }) => {
           type="text"
           name="category"
           value={product.category}
-          onChange={(e) => {
-            handleInputChange(e);
-            setProduct({ ...product, category: e.target.value });
-          }}
+          onChange={handleInputChange}
           required
         />
         <br />
@@ -84,10 +78,7 @@ const AddProduct = ({ handleCloseModal }) => {
           type="url"
           name="image"
           value={product.image}
-          onChange={(e) => {
-            handleInputChange(e);
-            setProduct({ ...product, image: e.target.value });
-          }}
+          onChange={handleInputChange}
           required
         />
         <br />
@@ -96,13 +87,7 @@ const AddProduct = ({ handleCloseModal }) => {
           type="number"
           name="ratingRate"
           value={product.rating.rate}
-          onChange={(e) => {
-            handleInputChange(e);
-            setProduct({
-              ...product,
-              rating: { ...product.rating, rate: parseFloat(e.target.value) },
-            });
-          }}
+          onChange={handleInputChange}
           required
         />
         <br />
@@ -111,13 +96,7 @@ const AddProduct = ({ handleCloseModal }) => {
           type="number"
           name="ratingCount"
           value={product.rating.count}
-          onChange={(e) => {
-            handleInputChange(e);
-            setProduct({
-              ...product,
-              rating: { ...product.rating, count: parseInt(e.target.value) },
-            });
-          }}
+          onChange={handleInputChange}
           required
         />
         <br />

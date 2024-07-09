@@ -1,14 +1,17 @@
-import React, { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutUser } from "../../redux/actions";
+import { selectUser } from "../../redux/reducers/userReducer";
 import { useNavigate } from "react-router-dom";
 import "./Profile.css";
 
 const Profile = () => {
-  const { user, logout } = useContext(AuthContext);
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout();
+    dispatch(logoutUser());
     navigate("/");
   };
 

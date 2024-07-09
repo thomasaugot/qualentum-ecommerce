@@ -1,17 +1,23 @@
-import React, { useContext } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import { FaHome, FaShoppingCart, FaSun, FaMoon, FaUser } from "react-icons/fa";
-import { useTheme } from "../../context/ThemeContext";
-import { CartContext } from "../../context/CartContext";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleDarkMode } from "../../redux/actions";
+import { selectCart } from "../../redux/reducers/cartReducer";
+import { selectDarkMode } from "../../redux/reducers/themeReducer";
 import SearchBar from "../SearchBar/SearchBar";
 import "./Navbar.css";
+import { selectUser } from "../../redux/reducers/userReducer";
 
-const Navbar = ({ setSearchTerm }) => {
-  const { darkMode, toggleDarkMode } = useTheme();
-  const { cart } = useContext(CartContext);
+const Navbar = () => {
+  const darkMode = useSelector(selectDarkMode);
+  const cart = useSelector(selectCart);
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
 
-  const handleSearchChange = (searchTerm) => {
-    setSearchTerm(searchTerm);
+  const handleToggleDarkMode = () => {
+    dispatch(toggleDarkMode());
+    document.body.classList.toggle("dark-mode");
   };
 
   return (
@@ -19,7 +25,7 @@ const Navbar = ({ setSearchTerm }) => {
       <div className="navbar-content">
         <div className="navbar-left">
           <h1 className="navbar-title">Thomas' E-commerce</h1>
-          <SearchBar onSearch={handleSearchChange} />
+          <SearchBar />
         </div>
         <nav className="nav-links">
           <NavLink to="/" className="nav-link" activeClassName="active-link">
@@ -30,18 +36,28 @@ const Navbar = ({ setSearchTerm }) => {
             className="nav-link"
             activeClassName="active-link"
           >
-            <FaShoppingCart size={24} />({cart.length})
+            <FaShoppingCart size={24} />({cart?.length})
           </NavLink>
-          <button onClick={toggleDarkMode} className="nav-button">
+          <button onClick={handleToggleDarkMode} className="nav-button">
             {darkMode ? <FaSun size={24} /> : <FaMoon size={24} />}
           </button>
-          <NavLink
-            to="/login"
-            className="nav-link"
-            activeClassName="active-link"
-          >
-            <FaUser size={24} />
-          </NavLink>
+          {user ? (
+            <NavLink
+              to="/profile"
+              className="nav-link"
+              activeClassName="active-link"
+            >
+              <FaUser size={24} />
+            </NavLink>
+          ) : (
+            <NavLink
+              to="/login"
+              className="nav-link"
+              activeClassName="active-link"
+            >
+              <FaUser size={24} />
+            </NavLink>
+          )}
         </nav>
       </div>
     </header>

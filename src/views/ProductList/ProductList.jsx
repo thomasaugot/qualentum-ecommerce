@@ -1,11 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import "./ProductList.css";
 import ProductCard from "../../components/ProductCard/ProductCard";
-import { ProductContext } from "../../context/ProductContext";
 import Loading from "../../components/Loading/Loading";
+import { selectProductsLoading } from "../../redux/reducers/productReducer";
 
-const ProductList = () => {
-  const { filteredProducts, loading } = useContext(ProductContext);
+const ProductList = ({ products }) => {
+  const loading = useSelector(selectProductsLoading);
 
   if (loading) {
     return <Loading />;
@@ -13,7 +14,7 @@ const ProductList = () => {
 
   return (
     <div className="product-list">
-      {filteredProducts.map((product) => (
+      {products?.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
     </div>

@@ -1,11 +1,26 @@
 import React from "react";
 import "./EditProduct.css";
+import { useDispatch } from "react-redux";
+import { editProduct } from "../../redux/actions";
 
-const EditProduct = ({ product, handleInputChange, handleSubmit }) => {
+const EditProduct = ({
+  product,
+  handleInputChange,
+  handleSubmit,
+  handleCloseModal,
+}) => {
+  const dispatch = useDispatch();
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(editProduct(product));
+    handleCloseModal();
+  };
+
   return (
     <div className="edit-product-container">
       <h2>Edit Product</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={onSubmit}>
         <label>Title:</label>
         <input
           type="text"
@@ -54,7 +69,7 @@ const EditProduct = ({ product, handleInputChange, handleSubmit }) => {
         <label>Rating Rate:</label>
         <input
           type="number"
-          name="ratingRate"
+          name="rating.rate"
           value={product.rating.rate}
           onChange={handleInputChange}
           required
@@ -63,7 +78,7 @@ const EditProduct = ({ product, handleInputChange, handleSubmit }) => {
         <label>Rating Count:</label>
         <input
           type="number"
-          name="ratingCount"
+          name="rating.count"
           value={product.rating.count}
           onChange={handleInputChange}
           required

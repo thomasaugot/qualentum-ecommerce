@@ -1,15 +1,22 @@
-import React, { useState, useContext } from "react";
-import { ProductContext } from "../../context/ProductContext";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchTerm } from "../../redux/actions";
+import { selectSearchTerm } from "../../redux/reducers/productReducer";
 import "./SearchBar.css";
 
 const SearchBar = () => {
-  const { setSearchTerm } = useContext(ProductContext);
-  const [localSearchTerm, setLocalSearchTerm] = useState("");
+  const dispatch = useDispatch();
+  const searchTerm = useSelector(selectSearchTerm);
+  const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
+
+  useEffect(() => {
+    setLocalSearchTerm(searchTerm);
+  }, [searchTerm]);
 
   const handleSearch = (e) => {
     const searchValue = e.target.value;
     setLocalSearchTerm(searchValue);
-    setSearchTerm(searchValue);
+    dispatch(setSearchTerm(searchValue));
   };
 
   return (

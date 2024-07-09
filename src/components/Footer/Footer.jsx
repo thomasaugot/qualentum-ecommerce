@@ -1,16 +1,21 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Modal from "../../components/Modal/Modal";
 import AddProduct from "../../components/AddProduct/AddProduct";
 import "./Footer.css";
-import { AuthContext } from "../../context/AuthContext";
+import { useSelector } from "react-redux";
+import { selectIsAdmin } from "../../redux/reducers/userReducer";
 
 const Footer = () => {
-  const { isAdmin } = useContext(AuthContext);
+  const isAdmin = useSelector(selectIsAdmin);
   const [showModal, setShowModal] = useState(false);
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
+
+  if (typeof isAdmin === "undefined") {
+    return null;
+  }
 
   return (
     <footer className="footer">

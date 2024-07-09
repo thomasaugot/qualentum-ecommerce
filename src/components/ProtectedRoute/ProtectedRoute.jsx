@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Navigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/reducers/userReducer";
 
 const ProtectedRoute = ({ children }) => {
-  const { user } = useContext(AuthContext);
+  const user = useSelector(selectUser);
 
   if (!user) {
     return <Navigate to="/login" />;
