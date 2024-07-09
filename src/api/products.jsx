@@ -1,48 +1,52 @@
 import axios from "axios";
-import {
-  ADD_PRODUCT,
-  EDIT_PRODUCT,
-  DELETE_PRODUCT,
-  FETCH_DATA_REQUEST,
-  FETCH_DATA_SUCCESS,
-  FETCH_DATA_FAILURE,
-} from "../redux/actions/actionsTypes";
 
 const API_URL = "http://localhost:3000/products";
 
-export const addProduct = (product) => async (dispatch) => {
+export const addProductAPI = async (product) => {
   try {
     const response = await axios.post(API_URL, product);
-    dispatch({ type: ADD_PRODUCT, payload: response.data });
+    return response.data;
   } catch (error) {
     console.error("Error adding product:", error);
+    throw error;
   }
 };
 
-export const editProduct = (product) => async (dispatch) => {
+export const editProductAPI = async (product) => {
   try {
     const response = await axios.put(`${API_URL}/${product.id}`, product);
-    dispatch({ type: EDIT_PRODUCT, payload: response.data });
+    return response.data;
   } catch (error) {
     console.error("Error editing product:", error);
+    throw error;
   }
 };
 
-export const deleteProduct = (productId) => async (dispatch) => {
+export const deleteProductAPI = async (productId) => {
   try {
     await axios.delete(`${API_URL}/${productId}`);
-    dispatch({ type: DELETE_PRODUCT, payload: productId });
   } catch (error) {
     console.error("Error deleting product:", error);
+    throw error;
   }
 };
 
-export const fetchProducts = () => async (dispatch) => {
-  dispatch({ type: FETCH_DATA_REQUEST });
+export const fetchProductsAPI = async () => {
   try {
     const response = await axios.get(API_URL);
-    dispatch({ type: FETCH_DATA_SUCCESS, payload: response.data });
+    return response.data;
   } catch (error) {
-    dispatch({ type: FETCH_DATA_FAILURE, payload: error.message });
+    console.error("Error fetching products:", error);
+    throw error;
+  }
+};
+
+export const getProductByIdAPI = async (productId) => {
+  try {
+    const response = await axios.get(`${API_URL}/${productId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching product by id:", error);
+    throw error;
   }
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import "./EditProduct.css";
 import { useDispatch } from "react-redux";
-import { editProduct } from "../../redux/actions";
+import { editProductThunk } from "../../store/slices/productSlice";
 
 const EditProduct = ({
   product,
@@ -13,7 +13,7 @@ const EditProduct = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(editProduct(product));
+    dispatch(editProductThunk(product));
     handleCloseModal();
   };
 

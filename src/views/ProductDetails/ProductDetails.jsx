@@ -1,16 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart } from "../../redux/actions";
-import { selectAllProducts } from "../../redux/reducers/productReducer";
+import { addToCart } from "../../store/slices/cartSlice";
+import {
+  selectAllProducts,
+  fetchProductsThunk,
+  selectProductsLoading,
+} from "../../store/slices/productSlice";
 import "./ProductDetails.css";
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const products = useSelector(selectAllProducts);
   const dispatch = useDispatch();
+  const products = useSelector(selectAllProducts);
+  const loading = useSelector(selectProductsLoading);
 
-  const product = products.find((p) => p.id === parseInt(id));
+  useEffect(() => {
+    if (!products.length) {
+      dispatch(fetchProductsThunk());
+    }
+  }, [dispatch, products]);
+
+  const product = products.find((p) => p.id === id);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   if (!product) {
     return <div>Product not found</div>;

@@ -4,9 +4,13 @@ import { Link } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import { IoMdCreate, IoMdTrash } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProduct, editProduct, addToCart } from "../../redux/actions";
+import { addToCart } from "../../store/slices/cartSlice";
+import {
+  editProductThunk,
+  deleteProductThunk,
+} from "../../store/slices/productSlice";
 import EditProduct from "../EditProduct/EditProduct";
-import { selectIsAdmin, selectUser } from "../../redux/reducers/userReducer";
+import { selectIsAdmin, selectUser } from "../../store/slices/userSlice";
 
 const ProductCard = ({ product }) => {
   const [showEditModal, setShowEditModal] = useState(false);
@@ -26,12 +30,12 @@ const ProductCard = ({ product }) => {
   };
 
   const handleDeleteClick = () => {
-    dispatch(deleteProduct(product.id));
+    dispatch(deleteProductThunk(product.id));
   };
 
   const handleEditSubmit = (e) => {
     e.preventDefault();
-    dispatch(editProduct(editedProduct));
+    dispatch(editProductThunk(editedProduct));
     setShowEditModal(false);
   };
 
@@ -50,11 +54,7 @@ const ProductCard = ({ product }) => {
       <div className="product-card-buttons">
         {user && (
           <>
-            <button
-              className="btn-add-to-cart"
-              onClick={handleAddToCart}
-              handleEditSubmit={handleEditSubmit}
-            >
+            <button className="btn-add-to-cart" onClick={handleAddToCart}>
               Add to Cart
             </button>
             {isAdmin && (

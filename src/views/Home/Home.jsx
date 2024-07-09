@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchProducts } from "../../redux/actions";
+import { fetchProductsThunk } from "../../store/slices/productSlice";
 import ProductList from "../ProductList/ProductList";
-import { selectUser } from "../../redux/reducers/userReducer";
+import { selectUser } from "../../store/slices/userSlice";
 import {
   selectAllProducts,
   selectSearchTerm,
-} from "../../redux/reducers/productReducer";
+} from "../../store/slices/productSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -15,8 +15,10 @@ const Home = () => {
   const searchTerm = useSelector(selectSearchTerm);
 
   useEffect(() => {
-    dispatch(fetchProducts());
+    dispatch(fetchProductsThunk());
   }, []);
+
+  console.log("fetched products --->", products);
 
   useEffect(() => {}, [searchTerm, products]);
 

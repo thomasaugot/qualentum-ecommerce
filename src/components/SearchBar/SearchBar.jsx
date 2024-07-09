@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setSearchTerm } from "../../redux/actions";
-import { selectSearchTerm } from "../../redux/reducers/productReducer";
+import {
+  setSearchTerm,
+  selectSearchTerm,
+} from "../../store/slices/productSlice";
 import "./SearchBar.css";
 
 const SearchBar = () => {

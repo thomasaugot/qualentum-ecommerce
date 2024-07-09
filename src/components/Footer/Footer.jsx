@@ -4,7 +4,7 @@ import Modal from "../../components/Modal/Modal";
 import AddProduct from "../../components/AddProduct/AddProduct";
 import "./Footer.css";
 import { useSelector } from "react-redux";
-import { selectIsAdmin } from "../../redux/reducers/userReducer";
+import { selectIsAdmin } from "../../store/slices/userSlice";
 
 const Footer = () => {
   const isAdmin = useSelector(selectIsAdmin);

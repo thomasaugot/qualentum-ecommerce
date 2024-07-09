@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { logoutUser } from "../../redux/actions";
-import { selectUser } from "../../redux/reducers/userReducer";
+import { logoutUserThunk } from "../../store/slices/userSlice";
+import { selectUser } from "../../store/slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import "./Profile.css";
 
@@ -11,7 +11,7 @@ const Profile = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    dispatch(logoutUser());
+    dispatch(logoutUserThunk());
     navigate("/");
   };
 

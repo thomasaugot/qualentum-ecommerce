@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addProduct } from "../../redux/actions";
+import { addProductThunk } from "../../store/slices/productSlice";
 import "./AddProduct.css";
 import { v4 as uuidv4 } from "uuid";
 
@@ -29,7 +29,7 @@ const AddProduct = ({ handleCloseModal }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addProduct(product));
+    dispatch(addProductThunk(product));
     handleCloseModal();
   };
 
@@ -85,7 +85,7 @@ const AddProduct = ({ handleCloseModal }) => {
         <label>Rating Rate:</label>
         <input
           type="number"
-          name="ratingRate"
+          name="rating.rate"
           value={product.rating.rate}
           onChange={handleInputChange}
           required
@@ -94,7 +94,7 @@ const AddProduct = ({ handleCloseModal }) => {
         <label>Rating Count:</label>
         <input
           type="number"
-          name="ratingCount"
+          name="rating.count"
           value={product.rating.count}
           onChange={handleInputChange}
           required

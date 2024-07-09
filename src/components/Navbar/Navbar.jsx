@@ -2,12 +2,12 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { FaHome, FaShoppingCart, FaSun, FaMoon, FaUser } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleDarkMode } from "../../redux/actions";
-import { selectCart } from "../../redux/reducers/cartReducer";
-import { selectDarkMode } from "../../redux/reducers/themeReducer";
+import { toggleDarkMode } from "../../store/slices/themeSlice";
+import { selectCart } from "../../store/slices/cartSlice";
+import { selectDarkMode } from "../../store/slices/themeSlice";
+import { selectUser } from "../../store/slices/userSlice";
 import SearchBar from "../SearchBar/SearchBar";
 import "./Navbar.css";
-import { selectUser } from "../../redux/reducers/userReducer";
 
 const Navbar = () => {
   const darkMode = useSelector(selectDarkMode);
@@ -51,7 +51,7 @@ const Navbar = () => {
             </NavLink>
           ) : (
             <NavLink
-              to="/login"
+              to="/authentication"
               className="nav-link"
               activeClassName="active-link"
             >

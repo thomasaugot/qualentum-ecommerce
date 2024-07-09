@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import "./ProductList.css";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import Loading from "../../components/Loading/Loading";
-import { selectProductsLoading } from "../../redux/reducers/productReducer";
+import { selectProductsLoading } from "../../store/slices/productSlice";
 
 const ProductList = ({ products }) => {
   const loading = useSelector(selectProductsLoading);

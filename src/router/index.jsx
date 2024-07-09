@@ -5,7 +5,9 @@ import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 import Loading from "../components/Loading/Loading";
 
 const Cart = lazy(() => import("../views/Cart/Cart"));
-const Login = lazy(() => import("../views/Login/Login"));
+const Authentication = lazy(() =>
+  import("../views/Authentication/Authentication")
+);
 const ProductDetails = lazy(() =>
   import("../views/ProductDetails/ProductDetails")
 );
@@ -41,10 +43,10 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "login",
+        path: "authentication",
         element: (
           <Suspense fallback={<Loading />}>
-            <Login />
+            <Authentication />
           </Suspense>
         ),
       },
