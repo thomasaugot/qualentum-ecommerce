@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUserThunk, createUserThunk } from "../../store/slices/userSlice";
 import { selectUser } from "../../store/slices/userSlice";
@@ -10,67 +11,121 @@ const Authentication = () => {
   const user = useSelector(selectUser);
   const navigate = useNavigate();
   const location = useLocation();
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    clearErrors,
+  } = useForm();
   const [isLoginMode, setIsLoginMode] = useState(true);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const onSubmit = (data) => {
     if (isLoginMode) {
-      // Login mode
-      if (username && email) {
-        dispatch(loginUserThunk({ username, email }));
-
-        const { from } = location.state || { from: { pathname: "/" } };
-        navigate(from.pathname);
-      } else {
-        alert("Please fill in both fields.");
-      }
+      dispatch(
+        loginUserThunk({
+          username: data.username,
+          email: data.email,
+          password: data.password,
+        })
+      )
+        .unwrap()
+        .then(() => {
+          const { from } = location.state || { from: { pathname: "/" } };
+          navigate(from.pathname);
+        });
     } else {
-      // Signup mode
-      if (username && email) {
-        dispatch(createUserThunk({ username, email }))
-          .unwrap()
-          .then(() => {
-            navigate("/");
-          });
-      } else {
-        alert("Please fill in all fields.");
-      }
+      dispatch(
+        createUserThunk({
+          username: data.username,
+          email: data.email,
+          password: data.password,
+        })
+      )
+        .unwrap()
+        .then(() => {
+          navigate("/");
+        });
     }
   };
 
   const toggleMode = () => {
     setIsLoginMode((prevMode) => !prevMode);
-    setUsername("");
-    setEmail("");
-    setPassword("");
+    clearErrors();
+  };
+
+  const validatePasswordsMatch = (value) => {
+    return value === watch("password") || "Passwords do not match";
   };
 
   return (
     <div className="auth-container">
       <h2>{isLoginMode ? "Login" : "Sign Up"}</h2>
-      <form onSubmit={handleSubmit} className="form-container">
+      <form onSubmit={handleSubmit(onSubmit)} className="form-container">
         <div className="form-group">
           <label htmlFor="username">Username:</label>
           <input
-            type="text"
             id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
+            type="text"
+            {...register("username", { required: "Username is required" })}
+            className={errors.username ? "error" : ""}
           />
+          {errors.username && (
+            <span className="error-message">{errors.username.message}</span>
+          )}
         </div>
         <div className="form-group">
           <label htmlFor="email">Email:</label>
           <input
-            type="email"
             id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
+            type="email"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: "Invalid email address",
+              },
+            })}
+            className={errors.email ? "error" : ""}
           />
+          {errors.email && (
+            <span className="error-message">{errors.email.message}</span>
+          )}
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
+          <input
+            id="password"
+            type="password"
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 6,
+                message: "Password must be at least 6 characters",
+              },
+            })}
+            className={errors.password ? "error" : ""}
+          />
+          {errors.password && (
+            <span className="error-message">{errors.password.message}</span>
+          )}
+        </div>
+        <div className="form-group">
+          <label htmlFor="confirmPassword">Confirm Password:</label>
+          <input
+            id="confirmPassword"
+            type="password"
+            {...register("confirmPassword", {
+              required: "Confirm Password is required",
+              validate: validatePasswordsMatch,
+            })}
+            className={errors.confirmPassword ? "error" : ""}
+          />
+          {errors.confirmPassword && (
+            <span className="error-message">
+              {errors.confirmPassword.message}
+            </span>
+          )}
         </div>
         <button type="submit">{isLoginMode ? "Login" : "Sign Up"}</button>
       </form>
